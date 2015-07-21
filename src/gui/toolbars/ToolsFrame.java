@@ -1,4 +1,4 @@
-package gui;
+package gui.toolbars;
 
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;

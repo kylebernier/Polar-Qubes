@@ -9,6 +9,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import core.Model;
+import gui.grid.GridFrame;
+import gui.model.ModelFrame;
+import gui.toolbars.PaletteFrame;
+import gui.toolbars.ToolsFrame;
 
 public class Main extends JFrame {
 

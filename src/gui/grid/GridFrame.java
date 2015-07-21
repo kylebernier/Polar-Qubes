@@ -1,4 +1,4 @@
-package gui;
+package gui.grid;
 
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
