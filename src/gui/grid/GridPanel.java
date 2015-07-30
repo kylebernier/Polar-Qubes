@@ -1,6 +1,7 @@
 package gui.grid;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -12,13 +13,35 @@ import gui.Main;
 import javafx.application.Platform;
 
 public class GridPanel extends JPanel{
-	int size = 8;
+	int size = 10;
 	int height = 64;
 	int width = 64;
 	
+	int layer = 0;
+	
 	boolean toggleGrid = true;
 	
+	public void changeLayer(int n) {
+		if(n == 0)
+			layer++;
+		if(n == 1)
+			layer--;
+	}
+	
+	public void increaseSize() {
+		size++;
+		setPreferredSize(new Dimension(size*width+1, size*height+1));
+		repaint();
+	}
+	
+	public void decreaseSize() {
+		size--;
+		setPreferredSize(new Dimension(size*width+1, size*height+1));
+		repaint();
+	}
+	
 	public GridPanel() {
+		setPreferredSize(new Dimension(size*width+1, size*height+1));
 		addMouseListener(new MouseListener() {
 			public void mousePressed(MouseEvent m) {
 				paintQ(m);
@@ -43,7 +66,7 @@ public class GridPanel extends JPanel{
 				int z = 0;
 
 				if (x < width && y < height && x >= 0 && y >= 0) {
-					Color c = Main.model.getColored(x, y, z);
+					Color c = Main.getModel().getColored(x, y, z);
 					if (c != null) {
 						String c1 = c.toString();
 						setToolTipText(c1.substring(14, c1.length() - 1) + ",a=" + c.getAlpha() + "]");
@@ -57,11 +80,11 @@ public class GridPanel extends JPanel{
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		for (int q : Main.model.Qubes) {
+		for (int q : Main.getModel().Qubes) {
 			int x = (q >> 24) & 0xFF;
 			int y = (q >> 16) & 0xFF;
 			int z = (q >> 8) & 0xFF;
-			g.setColor((Main.model.getColored(q)));
+			g.setColor((Main.getModel().getColored(q)));
 			g.fillRect(x * size, y * size, size, size);
 		}
 
@@ -88,12 +111,12 @@ public class GridPanel extends JPanel{
 		int y1 = transformY(y);
 		int z1 = transformZ(z);
 		
-		if (Main.model.getColor(x, y, z) == null && x < width && y < height && x >= 0 && y >= 0) {
-			Main.model.addQube(x, y, z, Main.currentColor);
+		if (Main.getModel().getColor(x, y, z) == null && x < width && y < height && x >= 0 && y >= 0) {
+			Main.getModel().addQube(x, y, z, Main.getModel().currentColor);
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					Main.modelFrame.addBox(x1, y1, z1, Main.currentColor);
+					Main.modelFrame.addBox(x1, y1, z1, Main.getModel().currentColor);
 				}
 			});
 		}

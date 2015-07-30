@@ -8,6 +8,12 @@ public class Model {
 	public List<Integer> Qubes = new ArrayList<Integer>();
 	List<Integer> Colors = new ArrayList<Integer>();
 	
+	public Color currentColor = Color.BLACK;
+	
+	public int currentLayer = 0;
+	
+	public boolean mirrx = false, mirry = false, mirrz = false;
+	
 	public Model() {
 	}
 

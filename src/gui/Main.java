@@ -11,7 +11,7 @@ import javax.swing.JMenuItem;
 import core.Model;
 import gui.grid.GridFrame;
 import gui.model.ModelFrame;
-import gui.toolbars.PaletteFrame;
+import gui.toolbars.ToolFrame;
 import gui.toolbars.ToolsFrame;
 
 public class Main extends JFrame {
@@ -21,16 +21,22 @@ public class Main extends JFrame {
 	
 	public static ModelFrame modelFrame;
 	
-	public static Model model;
+	public static GridFrame gridFrame;
 	
-	public static Color currentColor = Color.BLACK;
+	public static Model currentModel;
+	
+	public static int currentTool;
+	
+	public static Model getModel() {
+		return currentModel;
+	}
 
 	public static void main(String[] args) {
 		new Main();
 	}
 
 	public Main() {
-		model = new Model();
+		currentModel = new Model();
 		
 		loadSwing();
 		setVisible(true);
@@ -46,6 +52,7 @@ public class Main extends JFrame {
 		menuBar.add(file);
 
 		setJMenuBar(menuBar);
+		
 
 		JDesktopPane desktop = new JDesktopPane();
 		this.add(desktop);
@@ -54,22 +61,41 @@ public class Main extends JFrame {
 		modelFrame.setVisible(true);
 		desktop.add(modelFrame);
 		
-		JInternalFrame colorFrame = new ColorFrame();
+		ColorFrame colorFrame = new ColorFrame();
 		colorFrame.setVisible(true);
 		desktop.add(colorFrame);
 
-		JInternalFrame gridFrame = new GridFrame();
+		gridFrame = new GridFrame();
 		gridFrame.setVisible(true);
 		desktop.add(gridFrame);
 
-		JInternalFrame paletteFrame = new PaletteFrame();
-		paletteFrame.setVisible(true);
-		desktop.add(paletteFrame);
+		ToolFrame toolFrame = new ToolFrame();
+		toolFrame.setVisible(true);
+		desktop.add(toolFrame);
 
-		JInternalFrame toolsFrame = new ToolsFrame();
+		ToolsFrame toolsFrame = new ToolsFrame();
 		toolsFrame.setVisible(true);
 		desktop.add(toolsFrame);
+		
+		LayerFrame layerFrame = new LayerFrame();
+		layerFrame.setVisible(true);
+		desktop.add(layerFrame);
 
 		this.setSize(1024, 768);
+	}
+	
+	public static void setView(int n) {
+		
+	}
+	
+	public static void scaleGrid(int n) {
+		if (n == 0)
+			gridFrame.getGridPanel().increaseSize();
+		if (n == 1)
+			gridFrame.getGridPanel().decreaseSize();
+	}
+	
+	public static void changeLayer(int n) {
+		
 	}
 }

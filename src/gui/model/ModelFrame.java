@@ -49,6 +49,15 @@ public class ModelFrame extends JInternalFrame {
 	double mouseOldY;
 	double mouseDeltaX;
 	double mouseDeltaY;
+	
+	public int layer;
+	
+	public void changeLayer(int n) {
+		if(n == 0)
+			layer++;
+		if(n == 1)
+			layer--;
+	}
 
 	public ModelFrame() {
 		setTitle("Model");

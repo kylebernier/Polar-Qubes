@@ -247,7 +247,7 @@ public class ColorFrame extends JInternalFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				JFrame frame = new JFrame("More Colors");
 				final JColorChooser jcc = new JColorChooser();
-				jcc.setColor(Main.currentColor);
+				jcc.setColor(Main.getModel().currentColor);
 				frame.getContentPane().add(jcc);
 				frame.setSize(new Dimension(625, 400));
 				frame.setVisible(true);
@@ -325,7 +325,7 @@ public class ColorFrame extends JInternalFrame {
 	 */
 	private void refresh() {
 		color = new Color(r, g, b, a);
-		Main.currentColor = color;
+		Main.getModel().currentColor = color;
 		atext.setText("" + a);
 		aslide.setValue(a);
 		rtext.setText("" + r);
