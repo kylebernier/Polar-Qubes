@@ -1,11 +1,10 @@
 package gui.model;
 
-import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
+import javafx.scene.AmbientLight;
 import javafx.scene.DepthTest;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -15,18 +14,14 @@ import javafx.scene.SceneAntialiasing;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
-import javafx.scene.shape.CullFace;
-import javafx.scene.shape.DrawMode;
-import javafx.scene.shape.Shape3D;
 
 public class ModelFrame extends JInternalFrame {
 	final Group root = new Group();
-	final Xform axis = new Xform();
-	final Xform model = new Xform();
-	final Xform world = new Xform();
+	final Group axis = new Group();
+	final Group model = new Group();
+	final Group world = new Group();
 	final PerspectiveCamera camera = new PerspectiveCamera(true);
 	final Xform cameraXform = new Xform();
 	final Xform cameraXform2 = new Xform();
@@ -51,6 +46,10 @@ public class ModelFrame extends JInternalFrame {
 	double mouseDeltaY;
 	
 	public int layer;
+	
+	ModelMesh mesh;
+	
+	PhongMaterial material;
 	
 	public void changeLayer(int n) {
 		if(n == 0)
@@ -82,6 +81,8 @@ public class ModelFrame extends JInternalFrame {
 		buildCamera();
 		buildAxes();
 		buildModel();
+		
+		root.getChildren().add(new AmbientLight(Color.WHITE));
 
 		Scene scene = new Scene(root, 600, 600, true, SceneAntialiasing.BALANCED);
 		scene.setFill(Color.BLACK);
@@ -125,22 +126,13 @@ public class ModelFrame extends JInternalFrame {
     }
 	
 	public void addBox(int x, int y, int z, java.awt.Color c) {
-		Box qube = new Box(2, 2, 2);
-		qube.setMaterial(new PhongMaterial(new Color((double)c.getRed()/255, (double)c.getGreen()/255, (double)c.getBlue()/255, (double)c.getAlpha()/255)));
-		qube.setTranslateX(x * 2 + 1);
-		qube.setTranslateY(y * 2 + 1);
-		qube.setTranslateZ(z * 2 + 1);
-		qube.setDrawMode(DrawMode.FILL);
-		qube.setCullFace(CullFace.BACK);
-		model.getChildren().add(qube);
+		mesh.addCube(x, y, z);
 	}
 	
 	private void buildModel() {
-		PhongMaterial material = new PhongMaterial();
-		material.setDiffuseColor(Color.LIGHTGRAY);
-		material.setSpecularColor(Color.rgb(30, 30, 30));
+		mesh = new ModelMesh();
 
-		world.getChildren().add(model);
+		world.getChildren().add(mesh);
 	}
 
 	private void buildCamera() {

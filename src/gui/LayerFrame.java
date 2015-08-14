@@ -27,13 +27,19 @@ public class LayerFrame extends JInternalFrame {
 	private final Map<String, ImageIcon> imageMap;
 	
 	public LayerFrame() {
-        String[] nameList = {"Mario", "Luigi", "Bowser", "Koopa", "Princess"};
+		setResizable(true);
+		
+        String[] nameList = new String[5];
+        for (int i = 0; i < nameList.length; i++) {
+        	nameList[i] = "Layer " + (i + 1);
+        }
         imageMap = createImageMap(nameList);
         JList list = new JList(nameList);
         list.setCellRenderer(new MarioListRenderer());
+        list.setSelectedIndex(0);
 
         JScrollPane scroll = new JScrollPane(list);
-        scroll.setPreferredSize(new Dimension(300, 400));
+        scroll.setPreferredSize(new Dimension(200, 200));
 
         add(scroll);
         pack();
@@ -42,7 +48,7 @@ public class LayerFrame extends JInternalFrame {
 
     public class MarioListRenderer extends DefaultListCellRenderer {
 
-        Font font = new Font("helvitica", Font.BOLD, 24);
+        //Font font = new Font("helvitica", Font.BOLD, 24);
 
         @Override
         public Component getListCellRendererComponent(
@@ -53,7 +59,7 @@ public class LayerFrame extends JInternalFrame {
                     list, value, index, isSelected, cellHasFocus);
             label.setIcon(imageMap.get((String) value));
             label.setHorizontalTextPosition(JLabel.RIGHT);
-            label.setFont(font);
+            //label.setFont(font);
             return label;
         }
     }
@@ -61,11 +67,9 @@ public class LayerFrame extends JInternalFrame {
     private Map<String, ImageIcon> createImageMap(String[] list) {
         Map<String, ImageIcon> map = new HashMap<>();
         try {
-            map.put("Mario", new ImageIcon(new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)));
-            map.put("Luigi", new ImageIcon(new URL("http://i.stack.imgur.com/UvHN4.png")));
-            map.put("Bowser", new ImageIcon(new URL("http://i.stack.imgur.com/s89ON.png")));
-            map.put("Koopa", new ImageIcon(new URL("http://i.stack.imgur.com/QEK2o.png")));
-            map.put("Princess", new ImageIcon(new URL("http://i.stack.imgur.com/f4T4l.png")));
+        	for(int i = 1; i <= 5; i++) {
+        		map.put("Layer " + i, new ImageIcon(new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)));
+        	}
         } catch (Exception ex) {
             ex.printStackTrace();
         }

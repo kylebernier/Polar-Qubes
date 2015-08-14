@@ -21,6 +21,10 @@ public class GridPanel extends JPanel{
 	
 	boolean toggleGrid = true;
 	
+	public void toggleGrid() {
+		toggleGrid = !toggleGrid;
+	}
+	
 	public void changeLayer(int n) {
 		if(n == 0)
 			layer++;
@@ -28,15 +32,21 @@ public class GridPanel extends JPanel{
 			layer--;
 	}
 	
+	public void setLayer(int n) {
+		layer = n;
+	}
+	
 	public void increaseSize() {
 		size++;
 		setPreferredSize(new Dimension(size*width+1, size*height+1));
+		revalidate();
 		repaint();
 	}
 	
 	public void decreaseSize() {
 		size--;
 		setPreferredSize(new Dimension(size*width+1, size*height+1));
+		revalidate();
 		repaint();
 	}
 	
@@ -111,14 +121,20 @@ public class GridPanel extends JPanel{
 		int y1 = transformY(y);
 		int z1 = transformZ(z);
 		
-		if (Main.getModel().getColor(x, y, z) == null && x < width && y < height && x >= 0 && y >= 0) {
-			Main.getModel().addQube(x, y, z, Main.getModel().currentColor);
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					Main.modelFrame.addBox(x1, y1, z1, Main.getModel().currentColor);
-				}
-			});
+		if (x < width && y < height && x >= 0 && y >= 0) {
+			if (Main.getModel().getColor(x, y, z) == null && Main.currentTool == 0) {
+				Main.getModel().addQube(x, y, z, Main.getModel().currentColor);
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						Main.getModelFrame().addBox(x, y, z, Main.getModel().currentColor);
+					}
+				});
+			}
+			if (Main.getModel().getColor(x, y, z) != null && Main.currentTool == 1) {
+				Main.getModel().removeQube(x, y, z);
+				//Main.modelFrame.removeQube();
+			}
 		}
 	}
 	
