@@ -25,17 +25,17 @@ import javax.swing.DefaultListCellRenderer;
 
 public class LayerFrame extends JInternalFrame {
 	private final Map<String, ImageIcon> imageMap;
-	
+
 	public LayerFrame() {
 		setResizable(true);
 		
-        String[] nameList = new String[5];
+        String[] nameList = new String[Main.depth];
         for (int i = 0; i < nameList.length; i++) {
         	nameList[i] = "Layer " + (i + 1);
         }
         imageMap = createImageMap(nameList);
         JList list = new JList(nameList);
-        list.setCellRenderer(new MarioListRenderer());
+        list.setCellRenderer(new ListRenderer());
         list.setSelectedIndex(0);
 
         JScrollPane scroll = new JScrollPane(list);
@@ -46,10 +46,7 @@ public class LayerFrame extends JInternalFrame {
         setVisible(true);
     }
 
-    public class MarioListRenderer extends DefaultListCellRenderer {
-
-        //Font font = new Font("helvitica", Font.BOLD, 24);
-
+    public class ListRenderer extends DefaultListCellRenderer {
         @Override
         public Component getListCellRendererComponent(
                 JList list, Object value, int index,
@@ -59,7 +56,6 @@ public class LayerFrame extends JInternalFrame {
                     list, value, index, isSelected, cellHasFocus);
             label.setIcon(imageMap.get((String) value));
             label.setHorizontalTextPosition(JLabel.RIGHT);
-            //label.setFont(font);
             return label;
         }
     }
@@ -67,7 +63,7 @@ public class LayerFrame extends JInternalFrame {
     private Map<String, ImageIcon> createImageMap(String[] list) {
         Map<String, ImageIcon> map = new HashMap<>();
         try {
-        	for(int i = 1; i <= 5; i++) {
+        	for(int i = 1; i <= Main.depth; i++) {
         		map.put("Layer " + i, new ImageIcon(new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)));
         	}
         } catch (Exception ex) {

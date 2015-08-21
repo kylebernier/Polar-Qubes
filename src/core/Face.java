@@ -1,4 +1,4 @@
-package gui.model;
+package core;
 
 public class Face {
 	public boolean transparent;

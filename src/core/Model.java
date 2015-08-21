@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gui.Main;
-import gui.model.Face;
 
 public class Model {
 	public List<Integer> Qubes = new ArrayList<Integer>();
 	public List<Integer> ColorAssign = new ArrayList<Integer>();
-	public List<Integer> Colors = new ArrayList<Integer>();
+	public List<Color> Colors = new ArrayList<Color>();
 	
 	public Color currentColor = Color.BLACK;
 	
@@ -24,21 +23,16 @@ public class Model {
 	}
 
 	public void addQube(int x, int y, int z, Color color) {
-		int c = color.getAlpha();
-		c = (c << 8) + color.getRed();
-		c = (c << 8) + color.getGreen();
-		c = (c << 8) + color.getBlue();
+		int c = 0;
 
-		int c1 = 0;
-
-		if (Colors.contains(c)) {
-			c1 = Colors.indexOf(c);
+		if (Colors.contains(color)) {
+			c = Colors.indexOf(color);
 		} else {
-			Colors.add(c);
-			c1 = Colors.indexOf(c);
+			Colors.add(color);
+			c = Colors.indexOf(color);
 		}
 		
-		ColorAssign.add(c1);
+		ColorAssign.add(c);
 
 		int qu = x;
 		qu = (qu << 8) + y;
@@ -71,8 +65,17 @@ public class Model {
 		
 		return null;
 	}
-
-	public Integer getColor(int x, int y, int z) {
+	
+	public int getIndex(int x, int y, int z) {
+		int qu = x;
+		qu = (qu << 8) + y;
+		qu = (qu << 8) + z;
+		qu = (qu << 8);
+		
+		return Qubes.indexOf(qu);
+	}
+	
+	public Color getColor(int x, int y, int z) {
 		int qu = x;
 		qu = (qu << 8) + y;
 		qu = (qu << 8) + z;
@@ -84,51 +87,15 @@ public class Model {
 		return null;
 	}
 	
-	public Integer getColor(int qu) {
+	public Color getColor(int qu) {
 		if (Qubes.contains(qu))
 			return Colors.get(ColorAssign.get(Qubes.indexOf(qu)));
-		
-		return null;
-	}
-	
-	public Color getColored(int x, int y, int z) {
-		int qu = x;
-		qu = (qu << 8) + y;
-		qu = (qu << 8) + z;
-		qu = (qu << 8);
-		
-		if (Qubes.contains(qu)) {
-			int c = Colors.get(ColorAssign.get(Qubes.indexOf(qu)));
-			int a = (c >> 24) & 0xFF;
-			int r = (c >> 16) & 0xFF;
-			int g = (c >> 8) & 0xFF;
-			int b = c & 0xFF;
-			return new Color(r, g, b, a);
-		}
-		
-		return null;
-	}
-	
-	public Color getColored(int qu) {
-		if (Qubes.contains(qu)) {
-			int c = Colors.get(ColorAssign.get(Qubes.indexOf(qu)));
-			int a = (c >> 24) & 0xFF;
-			int r = (c >> 16) & 0xFF;
-			int g = (c >> 8) & 0xFF;
-			int b = c & 0xFF;
-			return new Color(r, g, b, a);
-		}
 		
 		return null;
 	}
 	
 	public Color getColour(int i) {
-		int c = Colors.get(i);
-		int a = (c >> 24) & 0xFF;
-		int r = (c >> 16) & 0xFF;
-		int g = (c >> 8) & 0xFF;
-		int b = c & 0xFF;
-		return new Color(r, g, b, a);
+		return Colors.get(i);
 	}
 	
 	public int getMaxDim() {

@@ -1,18 +1,27 @@
 package gui;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 
+import javax.swing.BoxLayout;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
 
 import core.Model;
 import gui.grid.GridFrame;
 import gui.model.ModelFrame;
 import gui.toolbars.ToolsFrame;
+import javafx.application.Platform;
 import gui.toolbars.ToolbarFrame;
 
 public class Main extends JFrame {
@@ -29,6 +38,10 @@ public class Main extends JFrame {
 	public static int currentTool = 0;
 	
 	Rectangle bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+	
+	public static int height = 64;
+	public static int width = 64;
+	public static int depth = 64;
 	
 	public static Model getModel() {
 		return currentModel;
@@ -47,7 +60,7 @@ public class Main extends JFrame {
 	}
 
 	public Main() {
-		
+		setLayout(new BorderLayout());
 		setSize(bounds.width, bounds.height);
 		
 		currentModel = new Model();
@@ -58,6 +71,12 @@ public class Main extends JFrame {
 	}
 
 	private void loadSwing() {
+		StatusPanel statusPanel = new StatusPanel();
+		add(statusPanel, BorderLayout.SOUTH);
+
+		JDesktopPane desktop = new JDesktopPane();
+		this.add(desktop);
+		
 		menuBar = new JMenuBar();
 		JMenu file = new JMenu("File");
 		file.add(new JMenuItem("Item 1"));
@@ -65,9 +84,6 @@ public class Main extends JFrame {
 		file.add(new JMenuItem("Item 3"));
 		menuBar.add(file);
 		setJMenuBar(menuBar);
-
-		JDesktopPane desktop = new JDesktopPane();
-		this.add(desktop);
 
 		modelFrame = new ModelFrame();
 		modelFrame.setLocation(bounds.width/2, 0);
@@ -100,10 +116,10 @@ public class Main extends JFrame {
 		desktop.add(layerFrame);
 	}
 	
-	public static void setView(int n) {
+	public static void setUp(int width, int height, int depth) {
 		
 	}
-	
+		
 	public static void scaleGrid(int n) {
 		if (n == 0)
 			gridFrame.getGridPanel().increaseSize();
@@ -111,7 +127,33 @@ public class Main extends JFrame {
 			gridFrame.getGridPanel().decreaseSize();
 	}
 	
+	public static void setView(int n) {
+		getGrid().getGridPanel().setView(n);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				getModelFrame().setView(n);
+			}
+		});
+	}
+	
+	public static void setLayer(int n) {
+		getGrid().getGridPanel().setLayer(n);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				getModelFrame().setLayer(n);
+			}
+		});
+	}
+	
 	public static void changeLayer(int n) {
-		
+		getGrid().getGridPanel().changeLayer(n);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				getModelFrame().changeLayer(n);
+			}
+		});
 	}
 }

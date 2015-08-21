@@ -15,18 +15,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class ToolsFrame extends JInternalFrame {
-	JButton btn_up, btn_down, btn_in, btn_out, btn_front, btn_right, btn_top, btn_brush, btn_erase, btn_fill, btn_mx, btn_my, btn_mz, btn_copy, btn_paste;
+	JButton btn_up, btn_down, btn_in, btn_out, btn_front, btn_right, btn_top, btn_pen, btn_erase, btn_fill, btn_mx, btn_my, btn_mz, btn_copy, btn_paste;
 	
 	public ToolsFrame() {
 		setTitle("Palette");
-		setSize(116, 401);
 		setVisible(true);
 		setIconifiable(true);
 
 		JToolBar toolBar = new JToolBar();
 		toolBar.setBackground(Color.DARK_GRAY);
 		toolBar.setFloatable(false);
-		toolBar.setBorder(null);
 		toolBar.setOrientation(SwingConstants.VERTICAL);
 		getContentPane().add(toolBar);
 		
@@ -38,7 +36,7 @@ public class ToolsFrame extends JInternalFrame {
 				Main.changeLayer(0);
 			}
 		});
-		btn_up.setIcon(new ImageIcon(getClass().getResource("/tools/Up.png")));
+		btn_up.setIcon(new ImageIcon(getClass().getResource("/tools/up.png")));
 		btn_up.setOpaque(false);
 		btn_up.setBorder(null);
 		toolBar.add(btn_up);
@@ -51,7 +49,7 @@ public class ToolsFrame extends JInternalFrame {
 				Main.changeLayer(1);
 			}
 		});
-		btn_down.setIcon(new ImageIcon(getClass().getResource("/tools/Down.png")));
+		btn_down.setIcon(new ImageIcon(getClass().getResource("/tools/down.png")));
 		btn_down.setOpaque(false);
 		btn_down.setBorder(null);
 		toolBar.add(btn_down);
@@ -64,7 +62,7 @@ public class ToolsFrame extends JInternalFrame {
 				Main.scaleGrid(0);
 			}
 		});
-		btn_in.setIcon(new ImageIcon(getClass().getResource("/tools/ZoomIn.png")));
+		btn_in.setIcon(new ImageIcon(getClass().getResource("/tools/in.png")));
 		btn_in.setOpaque(false);
 		btn_in.setBorder(null);
 		toolBar.add(btn_in);
@@ -77,7 +75,7 @@ public class ToolsFrame extends JInternalFrame {
 				Main.scaleGrid(1);
 			}
 		});
-		btn_out.setIcon(new ImageIcon(getClass().getResource("/tools/ZoomOut.png")));
+		btn_out.setIcon(new ImageIcon(getClass().getResource("/tools/out.png")));
 		btn_out.setOpaque(false);
 		btn_out.setBorder(null);
 		toolBar.add(btn_out);
@@ -90,7 +88,7 @@ public class ToolsFrame extends JInternalFrame {
 				setView(0);
 			}
 		});
-		btn_front.setIcon(new ImageIcon(getClass().getResource("/tools/Front.png")));
+		btn_front.setIcon(new ImageIcon(getClass().getResource("/tools/front1.png")));
 		btn_front.setOpaque(false);
 		btn_front.setBorder(null);
 		toolBar.add(btn_front);
@@ -103,7 +101,7 @@ public class ToolsFrame extends JInternalFrame {
 				setView(1);
 			}
 		});
-		btn_right.setIcon(new ImageIcon(getClass().getResource("/tools/Right.png")));
+		btn_right.setIcon(new ImageIcon(getClass().getResource("/tools/right.png")));
 		btn_right.setOpaque(false);
 		btn_right.setBorder(null);
 		toolBar.add(btn_right);
@@ -116,23 +114,23 @@ public class ToolsFrame extends JInternalFrame {
 				setView(2);
 			}
 		});
-		btn_top.setIcon(new ImageIcon(getClass().getResource("/tools/Top.png")));
+		btn_top.setIcon(new ImageIcon(getClass().getResource("/tools/top.png")));
 		btn_top.setOpaque(false);
 		btn_top.setBorder(null);
 		toolBar.add(btn_top);
 
 		toolBar.addSeparator(new Dimension(16, 26));
 
-		btn_brush = new JButton();
-		btn_brush.addActionListener(new ActionListener() {
+		btn_pen = new JButton();
+		btn_pen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setTool(0);
 			}
 		});
-		btn_brush.setIcon(new ImageIcon(getClass().getResource("/tools/Brush2.png")));
-		btn_brush.setOpaque(false);
-		btn_brush.setBorder(null);
-		toolBar.add(btn_brush);
+		btn_pen.setIcon(new ImageIcon(getClass().getResource("/tools/pen1.png")));
+		btn_pen.setOpaque(false);
+		btn_pen.setBorder(null);
+		toolBar.add(btn_pen);
 
 		toolBar.addSeparator(new Dimension(16, 5));
 
@@ -142,7 +140,7 @@ public class ToolsFrame extends JInternalFrame {
 				setTool(1);
 			}
 		});
-		btn_erase.setIcon(new ImageIcon(getClass().getResource("/tools/Eraser.png")));
+		btn_erase.setIcon(new ImageIcon(getClass().getResource("/tools/erase.png")));
 		btn_erase.setOpaque(false);
 		btn_erase.setBorder(null);
 		toolBar.add(btn_erase);
@@ -155,7 +153,7 @@ public class ToolsFrame extends JInternalFrame {
 				setTool(2);
 			}
 		});
-		btn_fill.setIcon(new ImageIcon(getClass().getResource("/tools/Fill.png")));
+		btn_fill.setIcon(new ImageIcon(getClass().getResource("/tools/fill.png")));
 		btn_fill.setOpaque(false);
 		btn_fill.setBorder(null);
 		toolBar.add(btn_fill);
@@ -224,7 +222,7 @@ public class ToolsFrame extends JInternalFrame {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btn_copy.setIcon(new ImageIcon(getClass().getResource("/tools/Copy.png")));
+		btn_copy.setIcon(new ImageIcon(getClass().getResource("/tools/copy.png")));
 		btn_copy.setOpaque(false);
 		btn_copy.setBorder(null);
 		toolBar.add(btn_copy);
@@ -236,7 +234,7 @@ public class ToolsFrame extends JInternalFrame {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btn_paste.setIcon(new ImageIcon(getClass().getResource("/tools/Paste.png")));
+		btn_paste.setIcon(new ImageIcon(getClass().getResource("/tools/paste.png")));
 		btn_paste.setOpaque(false);
 		btn_paste.setBorder(null);
 		toolBar.add(btn_paste);
@@ -249,48 +247,48 @@ public class ToolsFrame extends JInternalFrame {
 	private void setTool(int num) {
 		Main.currentTool = num;
 		if (num == 0) {
-			btn_brush.setIcon(new ImageIcon(getClass().getResource("/tools/Brush2.png")));
-			btn_erase.setIcon(new ImageIcon(getClass().getResource("/tools/Eraser.png")));
-			btn_fill.setIcon(new ImageIcon(getClass().getResource("/tools/Fill.png")));
+			btn_pen.setIcon(new ImageIcon(getClass().getResource("/tools/pen1.png")));
+			btn_erase.setIcon(new ImageIcon(getClass().getResource("/tools/erase.png")));
+			btn_fill.setIcon(new ImageIcon(getClass().getResource("/tools/fill.png")));
 		}
 		if (num == 1) {
-			btn_erase.setIcon(new ImageIcon(getClass().getResource("/tools/Eraser2.png")));
-			btn_brush.setIcon(new ImageIcon(getClass().getResource("/tools/Brush.png")));
-			btn_fill.setIcon(new ImageIcon(getClass().getResource("/tools/Fill.png")));
+			btn_erase.setIcon(new ImageIcon(getClass().getResource("/tools/erase1.png")));
+			btn_pen.setIcon(new ImageIcon(getClass().getResource("/tools/pen.png")));
+			btn_fill.setIcon(new ImageIcon(getClass().getResource("/tools/fill.png")));
 		}
 		if (num == 2) {
-			btn_fill.setIcon(new ImageIcon(getClass().getResource("/tools/Fill2.png")));
-			btn_erase.setIcon(new ImageIcon(getClass().getResource("/tools/Eraser.png")));
-			btn_brush.setIcon(new ImageIcon(getClass().getResource("/tools/Brush.png")));
+			btn_fill.setIcon(new ImageIcon(getClass().getResource("/tools/fill1.png")));
+			btn_erase.setIcon(new ImageIcon(getClass().getResource("/tools/erase.png")));
+			btn_pen.setIcon(new ImageIcon(getClass().getResource("/tools/pen.png")));
 		}
 	}
 	
 	private void setView(int num) {
 		if (num == 0) {
 			Main.setView(0);
-			btn_front.setIcon(new ImageIcon(getClass().getResource("/tools/Front2.png")));
+			btn_front.setIcon(new ImageIcon(getClass().getResource("/tools/front1.png")));
 			btn_front.setBorder(null);
-			btn_top.setIcon(new ImageIcon(getClass().getResource("/tools/Top.png")));
+			btn_top.setIcon(new ImageIcon(getClass().getResource("/tools/top.png")));
 			btn_top.setBorder(null);
-			btn_right.setIcon(new ImageIcon(getClass().getResource("/tools/Right.png")));
+			btn_right.setIcon(new ImageIcon(getClass().getResource("/tools/right.png")));
 			btn_right.setBorder(null);
 		}
 		if (num == 1) {
 			Main.setView(1);
-			btn_front.setIcon(new ImageIcon(getClass().getResource("/tools/Front.png")));
+			btn_front.setIcon(new ImageIcon(getClass().getResource("/tools/front.png")));
 			btn_front.setBorder(null);
-			btn_top.setIcon(new ImageIcon(getClass().getResource("/tools/Top2.png")));
+			btn_top.setIcon(new ImageIcon(getClass().getResource("/tools/top1.png")));
 			btn_top.setBorder(null);
-			btn_right.setIcon(new ImageIcon(getClass().getResource("/tools/Right.png")));
+			btn_right.setIcon(new ImageIcon(getClass().getResource("/tools/right.png")));
 			btn_right.setBorder(null);
 		}
 		if (num == 2) {
 			Main.setView(2);
-			btn_front.setIcon(new ImageIcon(getClass().getResource("/tools/Front.png")));
+			btn_front.setIcon(new ImageIcon(getClass().getResource("/tools/front.png")));
 			btn_front.setBorder(null);
-			btn_top.setIcon(new ImageIcon(getClass().getResource("/tools/Top.png")));
+			btn_top.setIcon(new ImageIcon(getClass().getResource("/tools/top.png")));
 			btn_top.setBorder(null);
-			btn_right.setIcon(new ImageIcon(getClass().getResource("/tools/Right2.png")));
+			btn_right.setIcon(new ImageIcon(getClass().getResource("/tools/right1.png")));
 			btn_right.setBorder(null);
 		}
 	}

@@ -2,8 +2,12 @@ package gui.model;
 
 import javax.swing.JInternalFrame;
 
+import core.ModelMesh;
+import core.Xform;
+import gui.Main;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
+import javafx.geometry.Point3D;
 import javafx.scene.AmbientLight;
 import javafx.scene.DepthTest;
 import javafx.scene.Group;
@@ -16,10 +20,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.scene.shape.Cylinder;
+import javafx.scene.shape.DrawMode;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 
 public class ModelFrame extends JInternalFrame {
 	final Group root = new Group();
 	final Group axis = new Group();
+	final Group lay = new Group();
 	final Group model = new Group();
 	final Group world = new Group();
 	final PerspectiveCamera camera = new PerspectiveCamera(true);
@@ -46,16 +55,42 @@ public class ModelFrame extends JInternalFrame {
 	double mouseDeltaY;
 	
 	public int layer;
+	public int view;
 	
 	ModelMesh mesh;
 	
 	PhongMaterial material;
 	
+	public void setView(int n) {
+		view = n;
+		buildLayer();
+	}
+	
 	public void changeLayer(int n) {
 		if(n == 0)
-			layer++;
+			if(view == 0 && layer+1 <= Main.depth)
+				layer++;
+			else
+				if(view == 1 && layer+1 <= Main.width)
+					layer++;
+				else
+					if(view == 2 && layer+1 <= Main.height)
+						layer++;
 		if(n == 1)
-			layer--;
+			if(view == 0 && layer-1 >= 0)
+				layer--;
+			else
+				if(view == 1 && layer-1 >= 0)
+					layer--;
+				else
+					if(view == 2 && layer-1 >= 0)
+						layer--;
+		buildLayer();
+	}
+	
+	public void setLayer(int n) {
+		layer = n;
+		buildLayer();
 	}
 
 	public ModelFrame() {
@@ -77,10 +112,13 @@ public class ModelFrame extends JInternalFrame {
 	private void initFX(JFXPanel fxPanel) {
 		root.getChildren().add(world);
 		root.setDepthTest(DepthTest.ENABLE);
+		
+		world.getChildren().add(lay);
 
 		buildCamera();
 		buildAxes();
 		buildModel();
+		buildLayer();
 		
 		root.getChildren().add(new AmbientLight(Color.WHITE));
 
@@ -94,39 +132,99 @@ public class ModelFrame extends JInternalFrame {
 		fxPanel.setScene(scene);
 	}
 	
-	private void buildAxes() {
-        final PhongMaterial redMaterial = new PhongMaterial();
-        redMaterial.setDiffuseColor(Color.RED);
-        redMaterial.setSpecularColor(Color.RED);
+	private void buildLayer() {
+		lay.getChildren().clear();
+		
+		int x = 0;
+		int y = 0;
+		int z = layer;
+		
+		int x1 = Main.depth;
+		int y1 = Main.width;
+		int z1 = Main.height;
+		
+		if (view == 1) {
+			x = layer;
+			y = 0;
+			z = 0;
+		}
+		if (view == 2) {
+			x = 0;
+			y = layer;
+			z = 0;
+		}
+		
+		Cylinder a = createConnection(new Point3D(-x,y,z), new Point3D(-x1,y,z));
+		Cylinder b = createConnection(new Point3D(-x,y,z+1), new Point3D(-x1,y,z+1));
+		Cylinder c = createConnection(new Point3D(-x,y1,z), new Point3D(-x1,y1,z));
+		Cylinder d = createConnection(new Point3D(-x,y1,z+1), new Point3D(-x1,y1,z+1));
+		
+		Cylinder e = createConnection(new Point3D(-x,y,z), new Point3D(-x,y1,z));
+		Cylinder f = createConnection(new Point3D(-x,y,z+1), new Point3D(-x,y1,z+1));
+		Cylinder g = createConnection(new Point3D(-x1,y,z), new Point3D(-x1,y1,z));
+		Cylinder h = createConnection(new Point3D(-x1,y,z+1), new Point3D(-x1,y1,z+1));
+		
+		Cylinder i = createConnection(new Point3D(-x1,y,z), new Point3D(-x1,y,z+1));
+		Cylinder j = createConnection(new Point3D(-x1,y1,z), new Point3D(-x1,y1,z+1));
+		Cylinder k = createConnection(new Point3D(-x,y,z), new Point3D(-x,y,z+1));
+		Cylinder l = createConnection(new Point3D(-x,y1,z), new Point3D(-x,y1,z+1));
 
-        final PhongMaterial greenMaterial = new PhongMaterial();
-        greenMaterial.setDiffuseColor(Color.GREEN);
-        greenMaterial.setSpecularColor(Color.GREEN);
-
-        final PhongMaterial blueMaterial = new PhongMaterial();
-        blueMaterial.setDiffuseColor(Color.BLUE);
-        blueMaterial.setSpecularColor(Color.BLUE);
-
-        final Box xAxis = new Box(AXIS_LENGTH, .1, .1);
-        final Box yAxis = new Box(.1, AXIS_LENGTH, .1);
-        final Box zAxis = new Box(.1, .1, AXIS_LENGTH);
-        final Box oAxis = new Box(.1, .1, .1);
+        a.setMaterial(new PhongMaterial(Color.YELLOW));
+        b.setMaterial(new PhongMaterial(Color.YELLOW));
+        c.setMaterial(new PhongMaterial(Color.YELLOW));
+        d.setMaterial(new PhongMaterial(Color.YELLOW));
         
-		xAxis.setTranslateX(AXIS_LENGTH/2 + .05);
-        yAxis.setTranslateY(AXIS_LENGTH/2 + .05);
-		zAxis.setTranslateZ(AXIS_LENGTH/2 + .05);
+        e.setMaterial(new PhongMaterial(Color.YELLOW));
+        f.setMaterial(new PhongMaterial(Color.YELLOW));
+        g.setMaterial(new PhongMaterial(Color.YELLOW));
+        h.setMaterial(new PhongMaterial(Color.YELLOW));
+        
+        i.setMaterial(new PhongMaterial(Color.YELLOW));
+        j.setMaterial(new PhongMaterial(Color.YELLOW));
+        k.setMaterial(new PhongMaterial(Color.YELLOW));
+       l.setMaterial(new PhongMaterial(Color.YELLOW));
+        
+        lay.getChildren().addAll(a,b,c,d,e,f,g,h,i,j,k,l);
+	}
+	
+	private void buildAxes() {
+        final Cylinder xAxis = createConnection(new Point3D(0,0,0), new Point3D(-AXIS_LENGTH, 0, 0));
+        final Cylinder yAxis = createConnection(new Point3D(0,0,0), new Point3D(0, AXIS_LENGTH, 0));
+        final Cylinder zAxis = createConnection(new Point3D(0,0,0), new Point3D(0, 0, AXIS_LENGTH));
 
-        xAxis.setMaterial(redMaterial);
-        yAxis.setMaterial(greenMaterial);
-        zAxis.setMaterial(blueMaterial);
-        oAxis.setMaterial(new PhongMaterial(Color.BLACK));
+        xAxis.setMaterial(new PhongMaterial(Color.RED));
+        yAxis.setMaterial(new PhongMaterial(Color.BLUE));
+        zAxis.setMaterial(new PhongMaterial(Color.GREEN));
 
-        axis.getChildren().addAll(xAxis, yAxis, zAxis, oAxis);
+        axis.getChildren().addAll(xAxis, yAxis, zAxis);
         world.getChildren().add(axis);
     }
 	
+	public Cylinder createConnection(Point3D origin, Point3D target) {
+	    Point3D yAxis = new Point3D(0, 1, 0);
+	    Point3D diff = target.subtract(origin);
+	    double height = diff.magnitude();
+
+	    Point3D mid = target.midpoint(origin);
+	    Translate moveToMidpoint = new Translate(mid.getX(), mid.getY(), mid.getZ());
+
+	    Point3D axisOfRotation = diff.crossProduct(yAxis);
+	    double angle = Math.acos(diff.normalize().dotProduct(yAxis));
+	    Rotate rotateAroundCenter = new Rotate(-Math.toDegrees(angle), axisOfRotation);
+
+	    Cylinder line = new Cylinder(.1, height);
+
+	    line.getTransforms().addAll(moveToMidpoint, rotateAroundCenter);
+
+	    return line;
+	}
+	
+	public void removeCube(int n) {
+		mesh.getChildren().remove(n);
+	}
+	
 	public void addBox(int x, int y, int z, java.awt.Color c) {
-		mesh.addCube(x, y, z);
+		mesh.addCube(x, y, z, c);
 	}
 	
 	private void buildModel() {

@@ -16,8 +16,11 @@ public class GridPanel extends JPanel{
 	int size = 10;
 	int height = 64;
 	int width = 64;
+	int depth = 64;
 	
 	int layer = 0;
+	
+	int view = 0;
 	
 	boolean toggleGrid = true;
 	
@@ -25,15 +28,37 @@ public class GridPanel extends JPanel{
 		toggleGrid = !toggleGrid;
 	}
 	
-	public void changeLayer(int n) {
+	public void setView(int n) {
+		view = n;
+		revalidate();
+		repaint();
+	}
+	
+	public void changeLayer(int n) {	
 		if(n == 0)
-			layer++;
+			if(view == 0 && layer+1 <= depth)
+				layer++;
+			else
+				if(view == 1 && layer+1 <= width)
+					layer++;
+				else
+					if(view == 2 && layer+1 <= height)
+						layer++;
 		if(n == 1)
-			layer--;
+			if(view == 0 && layer-1 >= 0)
+				layer--;
+			else
+				if(view == 1 && layer-1 >= 0)
+					layer--;
+				else
+					if(view == 2 && layer-1 >= 0)
+						layer--;
+		repaint();
 	}
 	
 	public void setLayer(int n) {
 		layer = n;
+		repaint();
 	}
 	
 	public void increaseSize() {
@@ -76,7 +101,7 @@ public class GridPanel extends JPanel{
 				int z = 0;
 
 				if (x < width && y < height && x >= 0 && y >= 0) {
-					Color c = Main.getModel().getColored(x, y, z);
+					Color c = Main.getModel().getColor(x, y, z);
 					if (c != null) {
 						String c1 = c.toString();
 						setToolTipText(c1.substring(14, c1.length() - 1) + ",a=" + c.getAlpha() + "]");
@@ -94,8 +119,26 @@ public class GridPanel extends JPanel{
 			int x = (q >> 24) & 0xFF;
 			int y = (q >> 16) & 0xFF;
 			int z = (q >> 8) & 0xFF;
-			g.setColor((Main.getModel().getColored(q)));
-			g.fillRect(x * size, y * size, size, size);
+			if (view == 0) {
+				if (z == layer) {
+					g.setColor(Main.getModel().getColor(q));
+					g.fillRect(x * size, y * size, size, size);
+				}
+			}
+			
+			if (view == 1) {
+				if (y == layer) {
+					g.setColor(Main.getModel().getColor(q));
+					g.fillRect(x * size, y * size, size, size);
+				}
+			}
+			
+			if (view == 2) {
+				if (x == layer) {
+					g.setColor(Main.getModel().getColor(q));
+					g.fillRect(x * size, y * size, size, size);
+				}
+			}
 		}
 
 		if (toggleGrid) {
@@ -115,7 +158,17 @@ public class GridPanel extends JPanel{
 	private void paintQ(MouseEvent m) {
 		int x = m.getX() / size;
 		int y = m.getY() / size;
-		int z = 2;
+		int z = layer;
+		if (view == 1) {
+			int temp = x;
+			x = z;
+			z = width - temp;
+		}
+		if (view == 2) {
+			int temp = z;
+			z = y;
+			y = depth - temp;
+		}
 		
 		int x1 = transformX(x);
 		int y1 = transformY(y);
@@ -127,19 +180,25 @@ public class GridPanel extends JPanel{
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
-						Main.getModelFrame().addBox(x, y, z, Main.getModel().currentColor);
+						Main.getModelFrame().addBox(x1, y1, z1, Main.getModel().currentColor);
 					}
 				});
 			}
-			if (Main.getModel().getColor(x, y, z) != null && Main.currentTool == 1) {
+			if (Main.getModel().getColor(x, y, z) != null && Main.currentTool == 1) {				
+				int n = Main.getModel().getIndex(x, y, z);
 				Main.getModel().removeQube(x, y, z);
-				//Main.modelFrame.removeQube();
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						Main.getModelFrame().removeCube(n);
+					}
+				});
 			}
 		}
 	}
 	
 	private int transformX(int x) {
-		return width - x - 1;
+		return width - x - 1 - width;
 	}
 	
 	private int transformY(int y) {

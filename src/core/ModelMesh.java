@@ -1,4 +1,4 @@
-package gui.model;
+package core;
 
 import com.sun.javafx.geom.Vec3f;
 
@@ -15,7 +15,8 @@ import javafx.scene.shape.TriangleMesh;
 public class ModelMesh extends Group {
 	Material material;
 	
-	public void addCube(int x, int y, int z) {
+	public void addCube(int x, int y, int z, java.awt.Color c) {
+		
 		float points[] = {
                 x, y, z,
                 x + 1, y, z,
@@ -51,7 +52,6 @@ public class ModelMesh extends Group {
             
             MeshView mesh = new MeshView(cube);
             mesh.setCullFace(CullFace.BACK);
-    		java.awt.Color c = Main.getModel().getColored(x, y, z);
     		material = new PhongMaterial(new Color((float)c.getRed()/255, (float)c.getGreen()/255, (float)c.getBlue()/255, (float)c.getAlpha()/255));
     	    mesh.setMaterial(material);
             
