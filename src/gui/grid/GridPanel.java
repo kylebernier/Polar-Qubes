@@ -159,20 +159,31 @@ public class GridPanel extends JPanel{
 		int x = m.getX() / size;
 		int y = m.getY() / size;
 		int z = layer;
+		
+		int x1 = width - x - 1 - width;
+		int y1 = height - y - 1;
+		int z1 = z;
+		
 		if (view == 1) {
+			x1 = x;
+			y1 = height - y - 1 - height;
+			z1 = depth - z - 1;
+			
 			int temp = x;
 			x = z;
 			z = width - temp;
 		}
 		if (view == 2) {
+			x1 = width - x - 1;
+			y1 = y;
+			z1 = depth - z - 1 - depth;
+			
 			int temp = z;
 			z = y;
 			y = depth - temp;
 		}
 		
-		int x1 = transformX(x);
-		int y1 = transformY(y);
-		int z1 = transformZ(z);
+		
 		
 		if (x < width && y < height && x >= 0 && y >= 0) {
 			if (Main.getModel().getColor(x, y, z) == null && Main.currentTool == 0) {
@@ -195,17 +206,5 @@ public class GridPanel extends JPanel{
 				});
 			}
 		}
-	}
-	
-	private int transformX(int x) {
-		return width - x - 1 - width;
-	}
-	
-	private int transformY(int y) {
-		return height - y - 1;
-	}
-
-	private int transformZ(int z) {
-		return z;
 	}
 }

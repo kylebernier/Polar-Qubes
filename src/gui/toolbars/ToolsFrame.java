@@ -98,7 +98,7 @@ public class ToolsFrame extends JInternalFrame {
 		btn_right = new JButton();
 		btn_right.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				setView(1);
+				setView(2);
 			}
 		});
 		btn_right.setIcon(new ImageIcon(getClass().getResource("/tools/right.png")));
@@ -111,7 +111,7 @@ public class ToolsFrame extends JInternalFrame {
 		btn_top = new JButton();
 		btn_top.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				setView(2);
+				setView(1);
 			}
 		});
 		btn_top.setIcon(new ImageIcon(getClass().getResource("/tools/top.png")));
