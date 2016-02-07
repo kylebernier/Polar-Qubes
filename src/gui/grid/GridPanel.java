@@ -188,10 +188,13 @@ public class GridPanel extends JPanel{
 		if (x < width && y < height && x >= 0 && y >= 0) {
 			if (Main.getModel().getColor(x, y, z) == null && Main.currentTool == 0) {
 				Main.getModel().addQube(x, y, z, Main.getModel().currentColor);
+				final int x11 = x1;
+				final int y11 = y1;
+				final int z11 = z1;
 				Platform.runLater(new Runnable() {
 					@Override
-					public void run() {
-						Main.getModelFrame().addBox(x1, y1, z1, Main.getModel().currentColor);
+					public void run() {				
+						Main.getModelFrame().addBox(x11, y11, z11, Main.getModel().currentColor);
 					}
 				});
 			}

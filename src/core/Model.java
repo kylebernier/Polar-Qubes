@@ -1,6 +1,6 @@
 package core;
 
-import java.awt.Color;
+import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class Model {
 	public List<Integer> ColorAssign = new ArrayList<Integer>();
 	public List<Color> Colors = new ArrayList<Color>();
 	
-	public Color currentColor = Color.BLACK;
+	public Color currentColor = Color.PURPLE;
 	
 	public int currentLayer = 0;
 	
@@ -24,6 +24,8 @@ public class Model {
 
 	public void addQube(int x, int y, int z, Color color) {
 		int c = 0;
+		
+		char asf = 3;
 
 		if (Colors.contains(color)) {
 			c = Colors.indexOf(color);

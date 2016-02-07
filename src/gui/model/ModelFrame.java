@@ -223,8 +223,8 @@ public class ModelFrame extends JInternalFrame {
 		mesh.getChildren().remove(n);
 	}
 	
-	public void addBox(int x, int y, int z, java.awt.Color c) {
-		mesh.addCube(x, y, z, c);
+	public void addBox(int x, int y, int z, Color currentColor) {
+		mesh.addCube(x, y, z, currentColor);
 	}
 	
 	private void buildModel() {

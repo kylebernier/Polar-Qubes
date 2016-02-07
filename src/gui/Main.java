@@ -90,10 +90,10 @@ public class Main extends JFrame {
 		modelFrame.setVisible(true);
 		desktop.add(modelFrame);
 		
-		ColorFrame colorFrame = new ColorFrame();
-		colorFrame.setLocation(300, 800);
-		colorFrame.setVisible(true);
-		desktop.add(colorFrame);
+		//ColorFrame colorFrame = new ColorFrame();
+		//colorFrame.setLocation(300, 800);
+		//colorFrame.setVisible(true);
+		//desktop.add(colorFrame);
 
 		gridFrame = new GridFrame();
 		gridFrame.setLocation(300, 100);
@@ -122,13 +122,13 @@ public class Main extends JFrame {
 		
 	public static void scaleGrid(int n) {
 		if (n == 0)
-			gridFrame.getGridPanel().increaseSize();
+			gridFrame.increaseSize();
 		if (n == 1)
-			gridFrame.getGridPanel().decreaseSize();
+			gridFrame.decreaseSize();
 	}
 	
 	public static void setView(int n) {
-		getGrid().getGridPanel().setView(n);
+		getGrid().setView(n);
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -138,7 +138,7 @@ public class Main extends JFrame {
 	}
 	
 	public static void setLayer(int n) {
-		getGrid().getGridPanel().setLayer(n);
+		getGrid().setLayer(n);
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -148,7 +148,7 @@ public class Main extends JFrame {
 	}
 	
 	public static void changeLayer(int n) {
-		getGrid().getGridPanel().changeLayer(n);
+		getGrid().changeLayer(n);
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {

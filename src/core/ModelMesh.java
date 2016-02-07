@@ -15,8 +15,7 @@ import javafx.scene.shape.TriangleMesh;
 public class ModelMesh extends Group {
 	Material material;
 	
-	public void addCube(int x, int y, int z, java.awt.Color c) {
-		
+	public void addCube(int x, int y, int z, Color c) {
 		float points[] = {
                 x, y, z,
                 x + 1, y, z,
@@ -28,7 +27,7 @@ public class ModelMesh extends Group {
                 x, y + 1, z + 1
             };
 
-            float texture[] = {0, 0, 1, 0, 1, 1, 0, 1};
+        float texture[] = {0, 0, 1, 0, 1, 1, 0, 1};
             
             int faces[] = {
                 0, 0, 2, 2, 1, 1,
@@ -52,7 +51,7 @@ public class ModelMesh extends Group {
             
             MeshView mesh = new MeshView(cube);
             mesh.setCullFace(CullFace.BACK);
-    		material = new PhongMaterial(new Color((float)c.getRed()/255, (float)c.getGreen()/255, (float)c.getBlue()/255, (float)c.getAlpha()/255));
+    		material = new PhongMaterial(c);
     	    mesh.setMaterial(material);
             
             getChildren().addAll(mesh);
@@ -335,8 +334,8 @@ public class ModelMesh extends Group {
 		
 		MeshView face = new MeshView(m);
 		face.setDrawMode(DrawMode.LINE);
-		java.awt.Color c = Main.getModel().getColour(voxel.texture);
-		material = new PhongMaterial(new Color((float)c.getRed()/255, (float)c.getGreen()/255, (float)c.getBlue()/255, (float)c.getAlpha()/255));
+		Color c = Main.getModel().getColour(voxel.texture);
+		material = new PhongMaterial(c);
 	    face.setMaterial(material);
 		
 		getChildren().add(face);
